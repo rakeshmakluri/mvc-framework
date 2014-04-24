@@ -2,10 +2,9 @@
 	Controller
 */
 
-function Controller( model , view)
+function Controller( model )
 {
 	this.model = model;
-	this.view = view;
 }
 
 Controller.prototype.initializeView = function()
@@ -20,7 +19,7 @@ Controller.prototype.reBindDataToView = function()
 	for( var i = 0; i < nodeList.length; i++ )
 	{
 		currentNode = nodeList[i];
-		var bindingAttributes = getNodeList( currentNode, ".//@*[starts-with(name(.),'mvc')]" );
+		var bindingAttributes = mvc.getNodeList( currentNode, ".//@*[starts-with(name(.),'mvc')]" );
 		for(var b = 0; b < bindingAttributes.length; b++)
 		{
 			var bindingProperty = bindingAttributes[0].nodeName;
@@ -39,10 +38,11 @@ Controller.prototype.reBindDataToView = function()
 		}
 	}
 }
+
 function initializeValue(currentNode, properties, ctrlr)
 {
 	var modelData = ctrlr.model.getData();
-	properties = getArrOfBindingProperties( properties );
+	properties = mvc.getArrOfBindingProperties( properties );
 	var length = properties.length;
 	for(var i = 0; i < length; i++)
 	{
@@ -70,7 +70,7 @@ function addViewListeners( currentNode, modelData, objectProperty )
 	var nodeName = currentNode.nodeName.toLowerCase();
 	if( nodeName == "input" || nodeName == "select" || nodeName == "textarea" )
 	{
-		addEventListener( currentNode, "input", onInputHandler( modelData, objectProperty ));
+		mvc.addEventListener( currentNode, "input", onInputHandler( modelData, objectProperty ));
 	}
 }
 
