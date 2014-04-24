@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<script src="../build/mvc-framework.min.js"/></script>
+
+		<script type="text/javascript">
+		
+			function populateData()
+			{ debugger;
+				var obj = {
+							name: "Rakesh makluri",
+							age: "24"
+						};
+							
+				model.initializeModel( obj );
+			}
+			function getDataFromModel()
+			{
+				var modelData = model.getData();
+				alert( "Name : " + modelData.name() + "\nAge : " + modelData.age() + "\nLocation : " + modelData.location() );
+			}
+			function setLocation()
+			{
+				var location = prompt("Please enter your location", "Hyderabad");
+				model.getData().location( location );
+			}
+		</script>
+	</head>
+	<body onload="populateData()">
+		<div>
+			<span>Your Name: </span>
+			<span mvc-bind="text:name"></span>
+		</div>
+		<div>
+			<span>Age: </span>
+			<input type="text" mvc-bind="value:age"/>
+		</div>
+		<div>
+			<span>Location:</span>
+			<input type="text" mvc-bind="value:location"/>
+		</div>
+		<button onclick="setLocation()"> Set location in model </button>
+		<button onclick="getDataFromModel()"> Get Data From Model </button>
+		
+	</body>
+</html>
