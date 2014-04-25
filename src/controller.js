@@ -2,11 +2,23 @@
 	Controller
 */
 
+/**
+ * @description
+ * Controller initializes the view and listen to the changes in the view and modifies the model data
+ * also listens to the model data changes and updates the view correspondingly
+ *
+ * @param {Model Object} model -- it is the model to which the controller registered to.
+ */
 function Controller( model )
 {
 	this.model = model;
 }
 
+/**
+ * @description
+ * Initializes(binds the data) the view for the first time and also creates listeners for the view and observables for the Model data
+ *
+ */
 Controller.prototype.initializeView = function()
 {
 	var currentNode;
@@ -14,8 +26,13 @@ Controller.prototype.initializeView = function()
 	this.reBindDataToView();
 }
 
+/**
+ * @description
+ * It will rebind the data to the view. It is use full when the model data is modified and the data to be rebinded to the view.
+ *
+ */
 Controller.prototype.reBindDataToView = function()
-{debugger;
+{
 	for( var i = 0; i < nodeList.length; i++ )
 	{
 		currentNode = nodeList[i];
@@ -38,6 +55,20 @@ Controller.prototype.reBindDataToView = function()
 		}
 	}
 }
+
+/**
+ * @description
+ * Creates the observable(listener) for specific field of an object.
+ * This api is useful when specific fields are added dynamically to the model data after initialization of the model
+ *
+ * @param {Object} dataObject -- Model data object
+ * @param {String} field -- the field and data object to which observable should be created
+ */
+Controller.prototype.createObservableForField = function( dataObject, field)
+{
+	 dataObject[field] = createObservable( dataObject[field], this );
+}
+
 
 function initializeCollection( cNode, collectionExpression, ctrlr )
 {
