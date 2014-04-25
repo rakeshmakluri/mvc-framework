@@ -1,0 +1,79 @@
+<html>
+	<head>
+		<!-- <script src="../build/mvc-framework.min.js"/></script> -->
+		<script src="js/headphonesdata.js"></script>
+		<script src="../src/framework.js"></script>
+		
+		<script src="../src/controller.js"></script>
+		<script src="../src/model.js"></script>
+		
+		<link href="css/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+		<script type="text/javascript">
+		
+			function populateData()
+			{
+				model.initializeModel( headSetData );
+			}
+		</script>
+		<style>
+			.item{
+				border-radius: 10px;
+				border: 1px solid rgb(238, 227, 227);
+				margin: 5px;
+				height:335px;
+			}
+			.item button{
+				display: none;
+			}
+			.item:hover{
+				border-radius: 10px;
+				border: 1px solid rgb(228, 74, 74);
+				margin: 5px;
+			}
+			.item:hover button{
+				display: block;
+			}
+		</style>
+	</head>
+
+	<body onload="populateData()">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header" mvc-bind="text:description">
+					</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 item" mvc-repeat="headPhonesCollection">
+					<a>
+						<img class="img-responsive" mvc-bind="src:image"> </img>
+					</a>
+					<a><p mvc-bind="text:name"> </p></a>
+					<div class="row">
+						<div class="col-md-6">
+							<h3><em>Rs.&nbsp;</em><em mvc-bind="text:price"> </em>
+							</h3>
+						</div>
+						<div class="col-md-6">
+							<button type="button" class="btn btn-primary">Add to cart</button>
+						</div>
+					</div>					
+				</div>
+			</div>
+			<hr>
+			<hr>
+
+			<footer>
+				<div class="row">
+					<div class="col-lg-12">
+						<p>Copyright &copy; Pramati Technologies Pvt.Ltd</p>
+					</div>
+				</div>
+			</footer>
+
+		</div>
+
+	</body>
+
+</html>

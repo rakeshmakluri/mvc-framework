@@ -62,6 +62,19 @@
 		
 		/**
 		 * @description
+		 * Insertes the new element after the existing child element
+		 *
+		 * @param {DOM Element} element -- new node to be inserted
+		 * @param {DOM Element} childElement -- the child element where the new element to be inserted after
+		 */
+		this.insertElementAfterChild = function( element, childElement )
+		{
+			var parentNode = childElement.parentNode;
+			childElement.nextSibling ? parentNode.insertBefore( element, childElement.nextSibling ) : parentNode.appendChild( element );
+		}
+		
+		/**
+		 * @description
 		 * Separates the different binding properties which are comma(,) separated and returns the binding properties as array of objects
 		 * for ex: "value: name, type: elementType" converted to [{nodeProperty: value, objectProperty:name}, {nodeProperty: type, objectProperty:elementType}]
 		 *

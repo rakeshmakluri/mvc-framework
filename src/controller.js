@@ -85,7 +85,7 @@ function initializeCollection( cNode, collectionExpression, ctrlr )
 		}
 		docFrag.appendChild( newNode );
 	}
-	cNode.parentNode.appendChild( docFrag );
+	mvc.insertElementAfterChild( docFrag, cNode );
 	//Hide template node
 	cNode.style.display = "none";
 	
