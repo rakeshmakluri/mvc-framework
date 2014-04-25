@@ -15,11 +15,11 @@ Controller.prototype.initializeView = function()
 }
 
 Controller.prototype.reBindDataToView = function()
-{
+{debugger;
 	for( var i = 0; i < nodeList.length; i++ )
 	{
 		currentNode = nodeList[i];
-		var bindingAttributes = mvc.getNodeList( currentNode, ".//@*[starts-with(name(.),'mvc')]" );
+		var bindingAttributes = mvc.getNodeList( currentNode, "@*[starts-with(name(.),'mvc')]" );
 		for(var b = 0; b < bindingAttributes.length; b++)
 		{
 			var bindingProperty = bindingAttributes[0].nodeName;
@@ -33,15 +33,47 @@ Controller.prototype.reBindDataToView = function()
 			}
 			else if( bindingProperty == "mvc-repeat" ) 
 			{
-				
+				initializeCollection( currentNode, properties, this )
 			}
 		}
 	}
 }
 
-function initializeValue(currentNode, properties, ctrlr)
+function initializeCollection( cNode, collectionExpression, ctrlr )
 {
-	var modelData = ctrlr.model.getData();
+	var collection = getCollectionObject( collectionExpression, ctrlr.model.getData() );	
+	var docFrag = cNode.ownerDocument.createDocumentFragment();
+	
+	for(var i = 0; i < collection.length; i++)
+	{
+		var newNode = cNode.cloneNode( true );
+		var nodes = mvc.getNodeList( newNode, ".//@mvc-bind/.." );
+		for(var j = 0; j < nodes.length; j++)
+		{			
+			if( nodes[j].getAttribute("mvc-bind") ) initializeValue( nodes[j], nodes[j].getAttribute("mvc-bind"), ctrlr, collection[i] );
+		}
+		docFrag.appendChild( newNode );
+	}
+	cNode.parentNode.appendChild( docFrag );
+	//Hide template node
+	cNode.style.display = "none";
+	
+}
+
+function getCollectionObject( expr, dataObj )
+{
+	var pS = expr.split(".");
+	//if( pS.length == 1 ) return dataObj;
+	for( var i = 0; i < pS.length; i++ )
+	{
+		dataObj = dataObj[pS[i]];
+	}
+	return dataObj;
+}
+
+function initializeValue(currentNode, properties, ctrlr, objectData)
+{
+	var modelData = objectData || ctrlr.model.getData();
 	properties = mvc.getArrOfBindingProperties( properties );
 	var length = properties.length;
 	for(var i = 0; i < length; i++)
@@ -94,9 +126,9 @@ function mapObjectByFields( dataObject, ctrlr )
 	for( var field in dataObject )
 	{
 		if( !dataObject.hasOwnProperty( field ) ) continue;
-		if( typeof dataObject[field] == "Object" )
+		if( typeof dataObject[field] == "object" )
 		{
-			dataObject
+			mapObjectByFields( dataObject[field], ctrlr );
 		}
 		else
 		{

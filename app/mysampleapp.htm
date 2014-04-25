@@ -1,6 +1,10 @@
 <html>
 	<head>
-		<script src="../build/mvc-framework.min.js"/></script>
+		<!-- <script src="../build/mvc-framework.min.js"/></script> -->
+		<script src="../src/framework.js"/></script>
+		
+		<script src="../src/controller.js"/></script>
+		<script src="../src/model.js"/></script>
 
 		<script type="text/javascript">
 		
@@ -8,7 +12,19 @@
 			{ debugger;
 				var obj = {
 							name: "Rakesh makluri",
-							age: "24"
+							age: "24",
+							friends:[
+							  {name:'John', age:25, gender:'boy'},
+							  {name:'Jessie', age:30, gender:'girl'},
+							  {name:'Johanna', age:28, gender:'girl'},
+							  {name:'Joy', age:15, gender:'girl'},
+							  {name:'Mary', age:28, gender:'girl'},
+							  {name:'Peter', age:95, gender:'boy'},
+							  {name:'Sebastian', age:50, gender:'boy'},
+							  {name:'Erika', age:27, gender:'girl'},
+							  {name:'Patrick', age:40, gender:'boy'},
+							  {name:'Samantha', age:60, gender:'girl'}
+							]
 						};
 							
 				model.initializeModel( obj );
@@ -37,6 +53,12 @@
 		<div>
 			<span>Location:</span>
 			<input type="text" mvc-bind="value:location"/>
+		</div>
+		<h1> Friends list: </h1>
+		<div mvc-repeat="friends">
+			<span>name:</span><span mvc-bind="text:name"></span>
+			<span>age:</span><span mvc-bind="text:age"></span>
+			<span>gender:</span><span mvc-bind="text:gender"></span>
 		</div>
 		<button onclick="setLocation()"> Set location in model </button>
 		<button onclick="getDataFromModel()"> Get Data From Model </button>
